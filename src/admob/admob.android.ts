@@ -78,8 +78,11 @@ export function showBanner(arg: BannerOptions): Promise<any> {
 
       // Wrapping it in a timeout makes sure that when this function is loaded from a Page.loaded event 'frame.Frame.topmost()' doesn't resolve to 'undefined'.
       // Also, in NativeScript 4+ it may be undefined anyway.. so using the appModule in that case.
-      setTimeout(() => {
-        const top = Frame.topmost();
+        setTimeout(() => {
+        let top = settings.view;
+        if (!top) {
+           top = Frame.topmost();
+        }
         if (top !== undefined && top.currentPage && top.currentPage.android && top.currentPage.android.getParent()) {
           top.currentPage.android.getParent().addView(adViewLayout, relativeLayoutParamsOuter);
         } else if (Application.android && Application.android.foregroundActivity) {

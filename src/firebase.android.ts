@@ -1029,6 +1029,7 @@ firebase.login = arg => {
       }
 
       firebase.moveLoginOptionsToObjects(arg);
+      firebase.loginArgs = arg; 
 
       const firebaseAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
       const onCompleteListener = new gmsTasks.OnCompleteListener({
@@ -1156,9 +1157,9 @@ firebase.login = arg => {
             setTimeout(() => {
               if (firebase._verifyPhoneNumberInProgress) {
                 firebase._verifyPhoneNumberInProgress = false;
-                firebase.requestPhoneAuthVerificationCode(userResponse => {
+                let onUserResponse = (userResponse) => {
                   if (userResponse === undefined && firebase.reject) {
-                    firebase.reject("Prompt was canceled");
+                    this.reject("Prompt was canceled");
                     return;
                   }
                   const authCredential = com.google.firebase.auth.PhoneAuthProvider.getCredential(verificationId, userResponse);
@@ -1169,7 +1170,12 @@ firebase.login = arg => {
                   } else {
                     user.linkWithCredential(authCredential).addOnCompleteListener(onCompleteListener);
                   }
-                }, arg.phoneOptions.verificationPrompt);
+                }
+                if(firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode) {
+                  firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode(onUserResponse);
+                } else {
+                  firebase.requestPhoneAuthVerificationCode(onUserResponse, firebase.loginArgs.phoneOptions.verificationPrompt);
+                }
               }
             }, 3000);
           }

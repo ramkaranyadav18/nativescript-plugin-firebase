@@ -476,6 +476,12 @@ Note that changing a password may fail if your login for this `email` was too lo
       // Optional
       android: {
           timeout: 30 // The maximum amount of time you are willing to wait for SMS auto-retrieval to be completed by the library
+      },
+      //Optional
+      //Use this callback to show custom prompt or UI to get auth verification code from user. For now it only works for android.
+      onRequestPhoneAuthVerificationCode: (onUserResponse) => {
+	      //request phone auth verifivation code to user. and then pass auth verification code to call back method.
+	      onUserResponse('123456');
       }
     }
   }).then(

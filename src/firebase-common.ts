@@ -27,6 +27,7 @@ export class GeoPoint {
 }
 
 export const firebase: any = {
+  loginArgs: null,
   initialized: false,
   instance: null,
   firebaseRemoteConfig: null,
@@ -197,6 +198,10 @@ export const firebase: any = {
     }
   },
   merge: (obj1, obj2) => {
+
+    if(!obj1 || !obj2) {
+        return obj1 ? obj1 : obj2 ? obj2 : undefined;
+    }
     const result = {}; // return result
     for (let i in obj1) {      // for every property in obj1
       if ((i in obj2) && (typeof obj1[i] === "object") && (i !== null)) {

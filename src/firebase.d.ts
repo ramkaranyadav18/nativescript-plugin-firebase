@@ -263,22 +263,27 @@ export namespace firebase {
     email: string;
   }
 
-  export interface FirebasePhoneLoginOptions {
-    phoneNumber: string;
+export interface FirebasePhoneLoginOptions {
+  phoneNumber: string;
+  /**
+   * The message show to the user that prompts him to enter the received verification code.
+   * Default: "Verification code".
+   */
+  verificationPrompt?: string;
+  android?: {
     /**
-     * The message show to the user that prompts him to enter the received verification code.
-     * Default: "Verification code".
+     * The maximum amount of time you are willing to wait for SMS auto-retrieval to be completed by the library. Maximum allowed value is 2 minutes. Use 0 to disable SMS-auto-retrieval. If you specified a positive value less than 30 seconds, library will default to 30 seconds.
+     * Default: 60 (seconds)
+     * See: https://firebase.google.com/docs/reference/android/com/google/firebase/auth/PhoneAuthProvider
      */
-    verificationPrompt?: string;
-    android?: {
-      /**
-       * The maximum amount of time you are willing to wait for SMS auto-retrieval to be completed by the library. Maximum allowed value is 2 minutes. Use 0 to disable SMS-auto-retrieval. If you specified a positive value less than 30 seconds, library will default to 30 seconds.
-       * Default: 60 (seconds)
-       * See: https://firebase.google.com/docs/reference/android/com/google/firebase/auth/PhoneAuthProvider
-       */
-      timeout: number;
-    };
-  }
+    timeout: number;
+  };
+  /**
+   * Callback function for verificaton code. use this callback function if you want to create custom prompt or ui for phone verification code.
+   * @param onUserResponse 
+   */
+  onRequestPhoneAuthVerificationCode? (onUserResponse: any): any;
+}
 
   export interface FirebaseGoogleLoginOptions {
     hostedDomain?: string;

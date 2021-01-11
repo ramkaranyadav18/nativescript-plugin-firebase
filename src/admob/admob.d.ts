@@ -52,6 +52,7 @@ interface AdLifeCycleEvents {
 }
 
 export interface BannerOptions extends AdLifeCycleEvents {
+  view?: any,
   /**
    * The layout of the banner.
    * Default AD_SIZE.SMART_BANNER
