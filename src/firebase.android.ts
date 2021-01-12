@@ -1159,7 +1159,7 @@ firebase.login = arg => {
                 firebase._verifyPhoneNumberInProgress = false;
                 let onUserResponse = (userResponse) => {
                   if (userResponse === undefined && firebase.reject) {
-                    this.reject("Prompt was canceled");
+                    firebase.reject("Prompt was canceled");
                     return;
                   }
                   const authCredential = com.google.firebase.auth.PhoneAuthProvider.getCredential(verificationId, userResponse);
@@ -1171,10 +1171,10 @@ firebase.login = arg => {
                     user.linkWithCredential(authCredential).addOnCompleteListener(onCompleteListener);
                   }
                 }
-                if(firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode) {
-                  firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode(onUserResponse);
+                if(arg.phoneOptions.onRequestPhoneAuthVerificationCode) {
+                  arg.phoneOptions.onRequestPhoneAuthVerificationCode(onUserResponse);
                 } else {
-                  firebase.requestPhoneAuthVerificationCode(onUserResponse, firebase.loginArgs.phoneOptions.verificationPrompt);
+                  firebase.requestPhoneAuthVerificationCode(onUserResponse, arg.phoneOptions.verificationPrompt);
                 }
               }
             }, 3000);

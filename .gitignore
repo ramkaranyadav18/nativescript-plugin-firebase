@@ -50,6 +50,6 @@ demo-push/platforms
 demo-ng/platforms
 node_modules
 !publish/scripts/*.js
-publish/package
+!publish/package/**/*.js
 /npm-debug.log
 *.p12
