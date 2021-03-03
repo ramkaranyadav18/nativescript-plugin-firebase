@@ -1113,7 +1113,7 @@ firebase.login = arg => {
 
       } else if (arg.type === firebase.LoginType.PHONE) {
         // https://firebase.google.com/docs/auth/android/phone-auth
-        if (!arg.phoneOptions || !arg.phoneOptions.phoneNumber) {
+        if (!firebase.loginArgs.phoneOptions || !firebase.loginArgs.phoneOptions.phoneNumber) {
           reject("Auth type PHONE requires a 'phoneOptions.phoneNumber' argument");
           return;
         }
@@ -1171,10 +1171,10 @@ firebase.login = arg => {
                     user.linkWithCredential(authCredential).addOnCompleteListener(onCompleteListener);
                   }
                 }
-                if(arg.phoneOptions.onRequestPhoneAuthVerificationCode) {
-                  arg.phoneOptions.onRequestPhoneAuthVerificationCode(onUserResponse);
+                if(firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode) {
+                  firebase.loginArgs.phoneOptions.onRequestPhoneAuthVerificationCode(onUserResponse);
                 } else {
-                  firebase.requestPhoneAuthVerificationCode(onUserResponse, arg.phoneOptions.verificationPrompt);
+                  firebase.requestPhoneAuthVerificationCode(onUserResponse, firebase.loginArgs.phoneOptions.verificationPrompt);
                 }
               }
             }, 3000);
@@ -1183,9 +1183,9 @@ firebase.login = arg => {
 
         firebase._verifyPhoneNumberInProgress = true;
 
-        let timeout = arg.phoneOptions.android ? arg.phoneOptions.android.timeout : 60;
+        let timeout = firebase.loginArgs.phoneOptions.android ? firebase.loginArgs.phoneOptions.android.timeout : 60;
         com.google.firebase.auth.PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            arg.phoneOptions.phoneNumber,
+            firebase.loginArgs.phoneOptions.phoneNumber,
             timeout, // timeout (in seconds, because of the next argument)
             java.util.concurrent.TimeUnit.SECONDS,
             Application.android.foregroundActivity,
